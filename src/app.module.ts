@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { User } from './users/users.entity';
 import { JobsModule } from './jobs/jobs.module';
 import { ApplicationsModule } from './applications/applications.module';
+import { Job } from './jobs/jobs.entity';
 
 @Module({
     controllers: [],
@@ -20,7 +21,7 @@ import { ApplicationsModule } from './applications/applications.module';
             username: process.env.POSTGRES_USER,
             password: process.env.POSTGRES_PASSWORD,
             database: process.env.POSTGRES_DB,
-            entities: [User],
+            entities: [User, Job],
             synchronize: true,
             autoLoadEntities: true,
         }),

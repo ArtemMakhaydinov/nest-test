@@ -1,26 +1,29 @@
+import { Job } from 'src/jobs/jobs.entity';
 import {
     Entity,
     Column,
     PrimaryGeneratedColumn,
     CreateDateColumn,
+    OneToMany,
 } from 'typeorm';
 
-interface UserCreationAttrs {
-    name: string;
-    email: string;
-}
-
-@Entity({name: 'users'})
+@Entity({ name: 'users' })
 export class User {
     @PrimaryGeneratedColumn({ type: 'integer' })
     id: number;
 
-    @Column({ type: 'varchar' })
+    @Column({ type: 'varchar', nullable: false })
     name: string;
 
     @Column({ type: 'varchar', unique: true, nullable: false })
     email: string;
 
+    @Column({ type: 'varchar', unique: true, nullable: true })
+    phone: string;
+
     @CreateDateColumn({ type: 'timestamp without time zone' })
-    createdDate: Date;
+    created_date: Date;
+
+    @OneToMany(() => Job, (job) => job.author)
+    created_jobs: Job[];
 }

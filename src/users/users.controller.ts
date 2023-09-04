@@ -4,15 +4,15 @@ import { UsersService } from './users.service';
 
 @Controller('users')
 export class UsersController {
-    constructor(private userService: UsersService) {}
+    constructor(private usersService: UsersService) {}
 
     @Post()
     async create(@Body() userDto: CreateUserDto) {
-        return await this.userService.createUser(userDto);
+        return await this.usersService.createUser(userDto);
     }
 
     @Get()
     async getAll() {
-        return await this.userService.findAllUsers();
+        return await this.usersService.findAllUsers();
     }
 }
