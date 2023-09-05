@@ -4,7 +4,7 @@ import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { User } from './users/users.entity';
 import { JobsModule } from './jobs/jobs.module';
-import { ApplicationsModule } from './applications/applications.module';
+import { JobApplicationsModule } from './job-applications/job-applications.module';
 import { Job } from './jobs/jobs.entity';
 
 @Module({
@@ -27,7 +27,7 @@ import { Job } from './jobs/jobs.entity';
         }),
         UsersModule,
         JobsModule,
-        ApplicationsModule,
+        JobApplicationsModule,
     ],
 })
 export class AppModule {}

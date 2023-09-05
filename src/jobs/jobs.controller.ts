@@ -14,7 +14,7 @@ export class JobsController {
 
     @Get()
     async getJobs(@Query() params) {
-        return await this.jobsService.findJobs(params);
+        return await this.jobsService.getJobsInOrder(params);
     }
 
     @Put()
@@ -22,8 +22,8 @@ export class JobsController {
         return await this.jobsService.updateJob(jobDto);
     }
 
-    @Post('/popdb')
-    async populateDb() {
-        return await this.jobsService.populateJobs();
-    }
+    // @Post('/popdb')
+    // async populateDb() {
+    //     return await this.jobsService.populateJobs();
+    // }
 }

@@ -1,3 +1,4 @@
+import { JobApplication } from 'src/job-applications/job-applications.entity';
 import { User } from 'src/users/users.entity';
 import {
     Entity,
@@ -7,6 +8,7 @@ import {
     ManyToOne,
     UpdateDateColumn,
     JoinColumn,
+    OneToMany,
 } from 'typeorm';
 
 @Entity({ name: 'jobs' })
@@ -35,4 +37,7 @@ export class Job {
     @ManyToOne(() => User, (user) => user.created_jobs, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'author_id', referencedColumnName: 'id' })
     author: User;
+
+    @OneToMany(() => JobApplication, (app) => app.job)
+    applications: JobApplication;
 }

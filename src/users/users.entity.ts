@@ -1,3 +1,4 @@
+import { JobApplication } from 'src/job-applications/job-applications.entity';
 import { Job } from 'src/jobs/jobs.entity';
 import {
     Entity,
@@ -26,4 +27,7 @@ export class User {
 
     @OneToMany(() => Job, (job) => job.author)
     created_jobs: Job[];
+
+    @OneToMany(() => JobApplication, (app) => app.user)
+    applications: JobApplication[];
 }
