@@ -11,7 +11,7 @@ export class UsersService {
         private readonly usersRepository: Repository<User>
     ) {}
 
-    async createUser(dto: CreateUserDto) {
+    async createUser(dto: CreateUserDto): Promise<User> {
         try {
             const user = await this.usersRepository
                 .createQueryBuilder('user')
@@ -26,7 +26,7 @@ export class UsersService {
         }
     }
 
-    async getUserById(id: number) {
+    async getUserById(id: number): Promise<User> {
         try {
             const user = await this.usersRepository
                 .createQueryBuilder('user')
@@ -39,7 +39,7 @@ export class UsersService {
         }
     }
 
-    async findAllUsers() {
+    async findAllUsers(): Promise<User[]> {
         try {
             const users = await this.usersRepository.find();
             return users;

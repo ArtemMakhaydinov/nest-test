@@ -4,6 +4,7 @@ import { Job } from './jobs.entity';
 import { Repository } from 'typeorm';
 import { CreateJobDto } from './dto/create-job.dto';
 import { UpdateJobDto } from './dto/update-job.dto';
+import { QueryJobDto } from './dto/query-jobs.dto';
 
 @Injectable()
 export class JobsService {
@@ -12,7 +13,7 @@ export class JobsService {
         private readonly jobsRepository: Repository<Job>
     ) {}
 
-    async createJob(dto: CreateJobDto) {
+    async createJob(dto: CreateJobDto): Promise<Job> {
         try {
             const job = await this.jobsRepository
                 .createQueryBuilder('job')
@@ -27,7 +28,7 @@ export class JobsService {
         }
     }
 
-    async updateJob(dto: UpdateJobDto) {
+    async updateJob(dto: UpdateJobDto): Promise<Job> {
         try {
             const job = await this.jobsRepository
                 .createQueryBuilder('job')
@@ -43,7 +44,7 @@ export class JobsService {
         }
     }
 
-    async getJobById(id: number) {
+    async getJobById(id: number): Promise<Job> {
         try {
             const job = await this.jobsRepository
                 .createQueryBuilder('job')
@@ -56,24 +57,15 @@ export class JobsService {
         }
     }
 
-    async getJobsInOrder(params) {
-        const validOrderClauses = [
-            'created_date',
-            'name',
-            'author_id',
-            'skills',
-        ];
+    async getJobsInOrder(dto: QueryJobDto): Promise<Job[]> {
+        const order = dto.order || null;
 
-        const order = validOrderClauses.includes(params.order)
-            ? params.order
+        const limit = Math.abs(Number(dto.limit)) || null;
+
+        const offset = dto.page && limit 
+            ? Math.abs(Number(dto.page) - 1) * limit 
             : null;
 
-        const limit = isNaN(Number(params.limit)) ? null : Number(params.limit);
-
-        const offset =
-            !isNaN(Number(params.page)) && limit
-                ? (Number(params.page) - 1) * limit
-                : null;
         try {
             const jobs = await this.jobsRepository
                 .createQueryBuilder('job')
@@ -84,26 +76,7 @@ export class JobsService {
 
             return jobs;
         } catch (err) {
-            throw new HttpException(
-                'Incorrect query parameters.',
-                HttpStatus.BAD_REQUEST
-            );
+            throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-    // async populateJobs() {
-    //     for (let i = 1; i <= 50; i++) {
-    //         const job = {
-    //             name: `${i}${i}${i}${i}`,
-    //             description: `${i}${i}${i}${i}${i}${i}${i}${i}${i}${i}${i}${i}${i}${i}${i}${i}`,
-    //             skills: [
-    //                 `${Math.floor(Math.random() * i)}`,
-    //                 `${Math.floor(Math.random() * i)}`,
-    //                 `${Math.floor(Math.random() * i)}`,
-    //             ],
-    //             author_id: Math.ceil(Math.random() * 3),
-    //         };
-    //         await this.jobsRepository.save(job);
-    //     }
-    // }
 }

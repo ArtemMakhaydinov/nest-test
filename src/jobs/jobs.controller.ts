@@ -2,6 +2,7 @@ import { Controller, Body, Post, Get, Put, Query } from '@nestjs/common';
 import { CreateJobDto } from './dto/create-job.dto';
 import { JobsService } from './jobs.service';
 import { UpdateJobDto } from './dto/update-job.dto';
+import { QueryJobDto } from './dto/query-jobs.dto';
 
 @Controller('jobs')
 export class JobsController {
@@ -13,17 +14,12 @@ export class JobsController {
     }
 
     @Get()
-    async getJobs(@Query() params) {
-        return await this.jobsService.getJobsInOrder(params);
+    async getJobs(@Query() jobDto: QueryJobDto) {
+        return await this.jobsService.getJobsInOrder(jobDto);
     }
 
     @Put()
     async update(@Body() jobDto: UpdateJobDto) {
         return await this.jobsService.updateJob(jobDto);
     }
-
-    // @Post('/popdb')
-    // async populateDb() {
-    //     return await this.jobsService.populateJobs();
-    // }
 }

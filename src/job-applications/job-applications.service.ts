@@ -19,7 +19,7 @@ export class JobApplicationsService {
         private jobService: JobsService
     ) {}
 
-    async getJobApplication(dto: CreateJobApplicationDto) {
+    async getJobApplication(dto: CreateJobApplicationDto): Promise<JobApplication> {
         try {
             const application = await this.jobApplicationsRepository
                 .createQueryBuilder('app')
@@ -33,7 +33,7 @@ export class JobApplicationsService {
         }
     }
 
-    async createJobApplication(dto: CreateJobApplicationDto) {
+    async createJobApplication(dto: CreateJobApplicationDto): Promise<JobApplication> {
         const user = await this.userService.getUserById(dto.user_id);
 
         if (!user) {
